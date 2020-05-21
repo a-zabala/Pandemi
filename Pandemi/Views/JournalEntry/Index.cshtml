@@ -1,0 +1,37 @@
+﻿@model IList<Pandemi.Models.JournalEntry>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+
+<h1>@ViewBag.Title</h1>
+
+<table class="table">
+
+    <tr>
+        <th>Date</th>
+        <th>Entry</th>
+        <td>Author</td>
+    </tr>
+
+    @foreach (var entry in Model)
+    {
+        <tr>
+            <td>@entry.EntryDate</td>
+            <td>@entry.Entry</td>
+            <td>@entry.FamilyMember.FirstName</td>
+        </tr>
+    }
+</table>
+
+@if (Model.Count == 0)
+{
+    <p>No entries yet!</p>
+}
+
+<p><a asp-controller="JournalEntry" asp-action="Add">Add Entry</a></p>
+<p><a asp-controller="JournalEntry" asp-action="Remove">Remove Remove</a></p>
