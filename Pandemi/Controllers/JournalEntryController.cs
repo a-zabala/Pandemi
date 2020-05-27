@@ -27,7 +27,8 @@ namespace Pandemi.Controllers
         }
         public IActionResult Add()
         {
-            AddJournalEntryViewModel addJournalEntryViewModel = new AddJournalEntryViewModel(context.FamilyMembers.ToList());
+            AddJournalEntryViewModel addJournalEntryViewModel = 
+                new AddJournalEntryViewModel(context.FamilyMembers.ToList());
             return View(addJournalEntryViewModel);
         }
         [HttpPost]
@@ -35,14 +36,15 @@ namespace Pandemi.Controllers
         {
             if (ModelState.IsValid)
             {
-                //FamilyMember newFamilyMember =
-                  //  context.FamilyMembers.Single(c => c.ID == addJournalEntryViewModel.FamilyMemberID);
-                // Add the new cheese to my existing cheeses
+                FamilyMember newFamilyMember =
+                  context.FamilyMembers.Single(c => c.ID == addJournalEntryViewModel.FamilyMemberID);
+                // Add the new journal entry to my existing journal entry
                 JournalEntry newJournalEntry = new JournalEntry
                 {
                     Name = addJournalEntryViewModel.FamilyMember,
                     Entry = addJournalEntryViewModel.Entry,
-                    //FamilyMember = newFamilyMember
+                    FamilyMember = newFamilyMember,
+                    EntryDate = addJournalEntryViewModel.EntryDate
                 };
 
                 context.JournalEntries.Add(newJournalEntry);

@@ -6,18 +6,22 @@
     <h1 class="display-4">Tell Your Story LastName Family</h1>
 
 </div>
-<h1>Add your activities:</h1>
+
+@if (Model.Count != 0)
+{
+
+<h1>Add your activities to the family story:</h1>
 
 <div class="col-lg-10">
 
     <button class="btn btn-primary btn-lg" type="button">Journal</button>
-    <button class="btn btn-info btn-lg" type="button">Foods</button>
+    <button class="btn btn-success btn-lg" type="button">Foods</button>
     <button class="btn btn-danger btn-lg" type="button">Books</button>
 </div>
 
 <div class="col-lg-6">
     <button class="btn btn-warning btn-lg" type="button">Skills</button>
-    <button class="btn btn-success btn-lg" type="button">Future</button>
+    <button class="btn btn-info btn-lg" type="button">Future</button>
 </div>
 
 <div class="text-center">
@@ -25,8 +29,16 @@
 
 </div>
 <h1>Go to Private Page:</h1>
+}
 
-<button class="btn btn-success btn-lg" type="button">Name</button>
+@foreach (var familymember in Model)
+{
+    <button class="btn btn-success btn-lg" type="button">@familymember.FirstName</button>
+    <h1></h1>
+
+
+}
+<!---<button class="btn btn-success btn-lg" type="button">Name</button>
 <h1></h1>
 <button class="btn btn-info btn-lg" type="button">Name</button>
 <h1></h1>
@@ -34,6 +46,7 @@
 <h1></h1>
 <button class="btn btn-warning btn-lg" type="button">Name</button>
 <h1></h1>
-<button class="btn btn-link" type="button">+ Add Family Member</button>
+<!--<button class="btn btn-link" type="button">+ Add Family Member</button>-->
+<p><a asp-controller="FamilyMember" asp-action="Add">+ Add Family Member</a></p>
 
 

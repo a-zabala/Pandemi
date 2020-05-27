@@ -10,23 +10,26 @@ namespace Pandemi.ViewModels
 {
     public class AddJournalEntryViewModel
     {
-        [Required]
-        [Display(Name = "Author Name")]
         public string FamilyMember { get; set; }
 
         [Required(ErrorMessage = "You must enter some text for your entry")]
         public string Entry { get; set; }
 
         [Required]
-        [Display(Name = "FamilyMember")]
+        [Display(Name = "Author Name")]
         public int FamilyMemberID { get; set; }
+        public DateTime EntryDate { get; set; }
+
 
         public List<SelectListItem> FamilyMembers { get; set; }
 
-        public AddJournalEntryViewModel() { }
+        public AddJournalEntryViewModel() 
+        {
+            EntryDate = DateTime.Now;
+        }
         public AddJournalEntryViewModel(IEnumerable<FamilyMember> familymembers)
         {
-
+            EntryDate = DateTime.Now;
             FamilyMembers = new List<SelectListItem>();
             foreach (FamilyMember familymember in familymembers)
             {

@@ -1,0 +1,24 @@
+﻿@model Pandemi.ViewModels.AddFamilyMemberViewModel
+
+<h1>Add Family Member</h1>
+<form asp-controller="FamilyMember" asp-action="Add" method="post">
+
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input class="form-control" asp-for="FirstName" />
+        <span asp-validation-for="FirstName"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Age"></label>
+        <input class="form-control" asp-for="Age" />
+        <span asp-validation-for="Age"></span>
+    </div>
+
+    <!--<div class="form-group">
+        <label asp-for="ID"></label>
+        <select asp-for="ID" asp-items="Model.FamilyMembers"></select>
+    </div>-->
+
+    <input type="submit" value="Add FamilyMember" />
+
+</form>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Pandemi.Data;
 using Pandemi.Models;
 
 namespace Pandemi.Controllers
@@ -17,15 +18,27 @@ namespace Pandemi.Controllers
         private readonly ILogger<HomeController> _logger;
 
 
-        
-        public HomeController(ILogger<HomeController> logger)
+
+        private readonly ApplicationDbContext context;
+
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
         {
             _logger = logger;
+            context = dbContext;
+
         }
+
+        //public HomeController()
+       //{
+          //  context = dbContext;
+        //}
 
         public IActionResult Index()
         {
-            return View();
+            List<FamilyMember> familymembers = context.FamilyMembers.ToList();
+            return View(familymembers);
+            //return View();
         }
 
         public IActionResult Privacy()

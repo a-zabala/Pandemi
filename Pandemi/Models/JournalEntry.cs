@@ -11,7 +11,6 @@ namespace Pandemi.Models
     {
 
         public int ID { get; set; }
-        public int FamilyMemberID { get; set; }
         public string Entry { get; set; }
         public int Pictures { get; set; }
         public string Name { get; set; }
@@ -19,6 +18,8 @@ namespace Pandemi.Models
         
         [DataType(DataType.Date)]
         public DateTime EntryDate { get; set; }
+        public int FamilyMemberID { get; set; }
+
         public FamilyMember FamilyMember { get; set; }
     }
 }

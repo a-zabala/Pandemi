@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Family Members</h2>
+
+
+@foreach (var familymember in Model)
+{
+    <ul>@familymember.FirstName</ul>
+
+}
+@if (Model.Count == 0)
+{
+    <p>No family members yet!</p>
+}
+
+<p><a asp-controller="FamilyMember" asp-action="Add">Add Family Member</a></p>

@@ -17,5 +17,6 @@ namespace Pandemi.Models
    
 
         public ICollection<JournalEntry> JournalEntries { get; set; }
+        //public IList<Book> Books { get; set; }
     }
 }
