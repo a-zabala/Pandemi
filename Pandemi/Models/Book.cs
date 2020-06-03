@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace Pandemi.Models
 {
-    public class JournalEntry
+    public class Book
     {
-
+        public string Title { get; set; }
         public int ID { get; set; }
-        public string Entry { get; set; }
-        public string EntryPicture { get; set; }
-        public string Name { get; set; }
-
         
-        [DataType(DataType.Date)]
-        public DateTime EntryDate { get; set; }
+        [Display(Name = "Family Member")]
         public int FamilyMemberID { get; set; }
+        public string Notes { get; set; }
+        public string Author { get; set; }
 
         public FamilyMember FamilyMember { get; set; }
+       
     }
 }

@@ -6,23 +6,32 @@
 
 
 
-<h1>@ViewBag.Title</h1>
+<h1 class="text-center text-uppercase">@ViewBag.Title</h1>
 
 <table class="table">
 
     <tr>
+        <th>Pic</th>
         <th>Date</th>
         <th>Entry</th>
-        <td>Author</td>
+        <th>Author</th>
     </tr>
 
     @foreach (var entry in Model)
     {
-        <tr>
-            <td>@entry.EntryDate</td>
-            <td>@entry.Entry</td>
-            <td>@entry.FamilyMember.FirstName</td>
-        </tr>
+<tr>
+    <td>
+        <img src="~/images/@entry.EntryPicture"
+             class="rounded-circle"
+             height="100" width="100"
+             asp-append-version="true" />
+       
+    </td>
+    <td>@entry.EntryDate</td>
+    <td>@entry.Entry</td>
+    <td>@entry.FamilyMember.FirstName</td>
+    
+</tr>
     }
 </table>
 

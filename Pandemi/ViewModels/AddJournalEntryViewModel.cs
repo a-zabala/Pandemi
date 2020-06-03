@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Pandemi.ViewModels
 {
@@ -19,6 +20,9 @@ namespace Pandemi.ViewModels
         [Display(Name = "Author Name")]
         public int FamilyMemberID { get; set; }
         public DateTime EntryDate { get; set; }
+        
+        [Display(Name = "Entry File")]
+        public IFormFile EntryFile { get; set; }
 
 
         public List<SelectListItem> FamilyMembers { get; set; }

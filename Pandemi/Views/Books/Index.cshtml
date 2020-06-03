@@ -1,0 +1,54 @@
+﻿@model IList<Pandemi.Models.Book>
+
+@{
+    ViewData["Title"] = "We Read Many Books!";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Add a Book</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Who read it?
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => book.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => book.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => book.FamilyMember.FirstName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@book.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@book.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@book.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
