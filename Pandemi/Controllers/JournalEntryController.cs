@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Pandemi.Data;
@@ -46,7 +47,7 @@ namespace Pandemi.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = UploadedFile(addJournalEntryViewModel);
+                //string uniqueFileName = UploadedFile(addJournalEntryViewModel);
                 FamilyMember newFamilyMember =
                   context.FamilyMembers.Single(c => c.ID == addJournalEntryViewModel.FamilyMemberID);
                 // Add the new journal entry to my existing journal entry
@@ -56,7 +57,8 @@ namespace Pandemi.Controllers
                     Entry = addJournalEntryViewModel.Entry,
                     FamilyMember = newFamilyMember,
                     EntryDate = addJournalEntryViewModel.EntryDate,
-                    EntryPicture = uniqueFileName,
+                    EntryFile = UploadedFile(addJournalEntryViewModel)
+                    //EntryPicture = uniqueFileName,
                 };
 
                 context.JournalEntries.Add(newJournalEntry);

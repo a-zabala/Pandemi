@@ -12,7 +12,7 @@ namespace Pandemi.Models
 
         public int ID { get; set; }
         public string Entry { get; set; }
-        public string EntryPicture { get; set; }
+        public string EntryFile { get; set; }
         public string Name { get; set; }
 
         
