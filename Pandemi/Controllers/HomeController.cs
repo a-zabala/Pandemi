@@ -12,7 +12,7 @@ using Pandemi.Models;
 
 namespace Pandemi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
 

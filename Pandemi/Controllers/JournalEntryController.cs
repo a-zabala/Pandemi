@@ -40,7 +40,7 @@ namespace Pandemi.Controllers
             return View(addJournalEntryViewModel);
         }
         [HttpPost]
-        
+        [ValidateAntiForgeryToken]
         //public async Task<IActionResult> Add(AddJournalEntryViewModel addJournalEntryViewModel)
 
         public IActionResult Add(AddJournalEntryViewModel addJournalEntryViewModel)

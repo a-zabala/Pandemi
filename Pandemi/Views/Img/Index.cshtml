@@ -1,0 +1,15 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    ViewData["Title"] = "Index";
+}
+    <center>
+        <h1>Upload Images</h1>
+    </center>
+
+<form method="post" enctype="multipart/form-data" asp-controller="Img" asp-action="Index">
+    <input type="file" name="imgfile"/>
+    <input type="submit" value="Upload"/>
+</form>

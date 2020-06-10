@@ -9,15 +9,19 @@ namespace Pandemi.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        
+        public DbSet<AppUser> AppUsers { get; set; }
+
+        public DbSet<AppRole> AppRoles { get; set; }
+
         public DbSet<JournalEntry> JournalEntries { get; set; }
         public DbSet<FamilyMember> FamilyMembers { get; set; }
         public DbSet<Book> Books { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+           : base(options)
+        { }
+       
 
     }
 }

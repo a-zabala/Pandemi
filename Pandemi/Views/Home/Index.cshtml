@@ -10,30 +10,32 @@
 @if (Model.Count != 0)
 {
 
-<h1>Add your activities to the family story:</h1>
-
-<div class="col-lg-10">
+    <h1>Add your activities to the family story:</h1>
    
-    <button class="btn btn-primary btn-lg" type="button">Journal</button>
-    <button class="btn btn-success btn-lg" type="button">Foods</button>
-    <button class="btn btn-danger btn-lg" type="button">Books</button>
-</div>
+    <div class="btn-group" style="width:100%">
+        
+            <button style="width:33.3%"class="btn btn-primary btn-lg" type="button">Journal</button>
+            <button style="width:33.3%"class="btn btn-success btn-lg" type="button">Foods</button>
+            <button style="width:33.3%"class="btn btn-danger btn-lg" type="button">Books</button>
+       
+    </div>
+   
+    <h1></h1>
+    <div class="btn-group" style="width:66.6%">
+        <button style="width:33.3%"class="btn btn-warning btn-lg" type="button">Skills</button>
+        <button style="width:33.3%"class="btn btn-secondary btn-lg" type="button">Future</button>
+    </div>
 
-<div class="col-lg-6">
-    <button class="btn btn-warning btn-lg" type="button">Skills</button>
-    <button class="btn btn-info btn-lg" type="button">Future</button>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">OR</h1>
 
-<div class="text-center">
-    <h1 class="display-4">OR</h1>
-
-</div>
-<h1>Go to Private Page:</h1>
+    </div>
+    <h1>Go to Private Page:</h1>
 }
 
 @foreach (var familymember in Model)
 {
-    <button class="btn btn-success btn-lg" type="button">@familymember.FirstName</button>
+    <button class="btn btn-primary btn-lg" type="button">@familymember.FirstName</button>
     <h1></h1>
 
 
