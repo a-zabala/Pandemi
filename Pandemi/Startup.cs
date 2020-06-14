@@ -51,6 +51,9 @@ namespace Pandemi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.Use(async (context, next) => { var request = context.Request; if (request.Path == "/Account/Login") { context.Response.Redirect("/Identity/Account/Login"); } else { await next.Invoke(); } });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -89,22 +89,40 @@ namespace Pandemi.Controllers
             return View(addBookViewModel);
         }
 
-            // GET: Books/Edit/5
+        // GET: Books/Edit/5
             public IActionResult Edit(int? id)
             {
                 if (id == null)
                 {
                     return NotFound();
                 }
+                
+            //Book book= context.Books
+            // .Include(e => e.FamilyMember).FirstOrDefaultAsync(m => m.ID == id);
+            //var book = context.Books.FindAsync(id);
+            var book = context.Books.Include(e=>e.FamilyMember).FirstOrDefault(m=>m.ID==id);
+            EditBookViewModel editBookViewModel = new EditBookViewModel()
+            {
+                Author = book.Author,
+                Notes = book.Notes,
+                Title = book.Title,
+                FamilyMemberID = book.FamilyMemberID
+            };
 
-                var book = context.Books.FindAsync(id);
+
+
+
                 if (book == null)
                 {
                     return NotFound();
                 }
-                //ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers, "ID", "ID", book.FamilyMemberID);
-                return View(book);
-            }
+           // ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers, "ID", "ID");
+           
+            ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers, "ID", "FirstName");
+            //return View(book);
+            return View(editBookViewModel);
+           
+        }
 
         // POST: Books/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 

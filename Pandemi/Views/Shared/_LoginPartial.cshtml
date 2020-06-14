@@ -7,9 +7,10 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-        @{ var user = await UserManager.GetUserAsync(User);}
-        Hello @(user.FamilyName)!
+        
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            @{ var user = await UserManager.GetUserAsync(User);}
+            Hello @(user.FamilyName) Family!
         </a>
     </li>
     <li class="nav-item">

@@ -13,6 +13,7 @@ namespace Pandemi.Models
         
         [Display(Name = "Family Member")]
         public int FamilyMemberID { get; set; }
+       
         public string Notes { get; set; }
         public string Author { get; set; }
 

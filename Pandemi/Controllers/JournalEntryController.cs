@@ -11,6 +11,7 @@ using Pandemi.Data;
 using Pandemi.Models;
 using Pandemi.ViewModels;
 using Humanizer;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Pandemi.Controllers
 {
@@ -70,6 +71,62 @@ namespace Pandemi.Controllers
             }
 
             return View(addJournalEntryViewModel);
+        }
+        // GET: JournalEntry/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var journalentry = await context.JournalEntries
+                .Include(b => b.FamilyMember)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (journalentry == null)
+            {
+                return NotFound();
+            }
+
+            return View(journalentry);
+        }
+        // POST: Books/Edit/5
+       
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, JournalEntry journalentry)
+        {
+            if (id != journalentry.ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    context.Update(journalentry);
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!JournalEntryExists(journalentry.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers, "ID", "ID", journalentry .FamilyMemberID);
+            return View(journalentry);
+        }
+        private bool JournalEntryExists(int id)
+        {
+            return context.JournalEntries.Any(e => e.ID == id);
         }
         private string UploadedFile(AddJournalEntryViewModel addJournalEntryViewModel)
         {
