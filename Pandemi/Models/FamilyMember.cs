@@ -9,7 +9,7 @@ namespace Pandemi.Models
     public class FamilyMember
     {
         public int ID { get; set; }
-        [Display(Name = "First Name")]
+        [Display(Name = "Family Member")]
         public string FirstName { get; set; }
         [Display(Name = "Last Name")]
         public string LastName { get; set; }

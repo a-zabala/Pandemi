@@ -62,9 +62,7 @@ namespace Pandemi.Areas.Identity.Pages.Account.Manage
                 Email = email,
                 PhoneNumber = phoneNumber,
                 FamilyName = user.FamilyName
-               
-                
-                
+                                        
             };
         }
 

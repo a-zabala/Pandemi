@@ -59,7 +59,6 @@ namespace Pandemi.Controllers
                     FamilyMember = newFamilyMember,
                     EntryDate = addJournalEntryViewModel.EntryDate,
                     EntryFile = UploadedFile(addJournalEntryViewModel)
-                    //EntryPicture = uniqueFileName,
                 };
 
                 context.JournalEntries.Add(newJournalEntry);

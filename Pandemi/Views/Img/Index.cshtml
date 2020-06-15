@@ -9,7 +9,12 @@
         <h1>Upload Images</h1>
     </center>
 
-<form method="post" enctype="multipart/form-data" asp-controller="Img" asp-action="Index">
-    <input type="file" name="imgfile"/>
-    <input type="submit" value="Upload"/>
-</form>
+    <form asp-controller="Img" asp-action="Index" enctype="multipart/form-data" method="post">
+        <!--<form method="post" enctype="multipart/form-data" asp-controller="Img" asp-action="Index">-->
+
+        <input type="file" name="imgfile" />
+        <input type="submit" value="Upload" />
+        <div class="form-group"></div>
+            
+           
+    </form>
