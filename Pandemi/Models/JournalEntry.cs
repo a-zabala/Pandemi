@@ -21,5 +21,7 @@ namespace Pandemi.Models
         public int FamilyMemberID { get; set; }
 
         public FamilyMember FamilyMember { get; set; }
+        public string UserId { get; set; }
+        public AppUser User { get; set; }
     }
 }

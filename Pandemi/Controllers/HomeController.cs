@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Pandemi.Data;
@@ -19,12 +20,16 @@ namespace Pandemi.Controllers
         private readonly ILogger<HomeController> _logger;
 
         private readonly ApplicationDbContext context;
+        private readonly UserManager<AppUser> _userManager;
 
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext, UserManager<AppUser> userManager)
         {
             _logger = logger;
             context = dbContext;
+            _userManager = userManager;
+
         }
 
         //public HomeController()
@@ -32,11 +37,15 @@ namespace Pandemi.Controllers
         //  context = dbContext;
         //}
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<FamilyMember> familymembers = context.FamilyMembers.ToList();
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            IList<FamilyMember> familymembers = context.FamilyMembers.Where(s => s.UserId == user.Id).ToList();
             return View(familymembers);
-            //return View();
+
+            //List<FamilyMember> familymembers = context.FamilyMembers.ToList();
+            //return View(familymembers);
         }
 
         public IActionResult Privacy()

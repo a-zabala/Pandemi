@@ -19,6 +19,7 @@ namespace Pandemi.ViewModels
         public string Author { get; set; }
         [Display(Name = "Family Member")]
         public int FamilyMemberID { get; set; }
+        public string UserId { get; set; }
         public List<SelectListItem> FamilyMembers { get; set; }
 
         public EditBookViewModel() 

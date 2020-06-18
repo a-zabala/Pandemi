@@ -19,6 +19,8 @@ namespace Pandemi.ViewModels
         [Required]
         [Display(Name = "Author Name")]
         public int FamilyMemberID { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString ="{0:dd-MM-yyyy}")]
         public DateTime EntryDate { get; set; }
         
         [Display(Name = "Entry File")]

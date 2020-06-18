@@ -12,45 +12,54 @@ using Pandemi.Models;
 using Pandemi.ViewModels;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Pandemi.Controllers
 {
+    [Authorize]
     public class JournalEntryController : Controller
     {
         private readonly ApplicationDbContext context;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly UserManager<AppUser> _userManager;
 
-        public JournalEntryController(ApplicationDbContext dbContext, IWebHostEnvironment hostEnvironment)
+        public JournalEntryController(ApplicationDbContext dbContext, IWebHostEnvironment hostEnvironment, UserManager<AppUser> userManager)
         {
             context = dbContext;
             webHostEnvironment = hostEnvironment;
+            _userManager = userManager;
 
         }
-        public IActionResult Index()
-        //public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IList<JournalEntry> journalentries = context.JournalEntries.Include(c => c.FamilyMember).ToList();
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            IList<JournalEntry> journalentries = context.JournalEntries.Include(c => c.FamilyMember).Where(s => s.UserId == user.Id).ToList();
 
             return View(journalentries);
             //return View();
         }
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             AddJournalEntryViewModel addJournalEntryViewModel = 
-                new AddJournalEntryViewModel(context.FamilyMembers.ToList());
+                new AddJournalEntryViewModel(context.FamilyMembers.Where(s => s.UserId == user.Id).ToList());
             return View(addJournalEntryViewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public async Task<IActionResult> Add(AddJournalEntryViewModel addJournalEntryViewModel)
 
-        public IActionResult Add(AddJournalEntryViewModel addJournalEntryViewModel)
+        public async Task<IActionResult> Add(AddJournalEntryViewModel addJournalEntryViewModel)
         {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             if (ModelState.IsValid)
             {
                 //string uniqueFileName = UploadedFile(addJournalEntryViewModel);
                 FamilyMember newFamilyMember =
-                  context.FamilyMembers.Single(c => c.ID == addJournalEntryViewModel.FamilyMemberID);
+                  context.FamilyMembers.Where(s => s.UserId == user.Id).Single(c => c.ID == addJournalEntryViewModel.FamilyMemberID);
                 // Add the new journal entry to my existing journal entry
                 JournalEntry newJournalEntry = new JournalEntry
                 {
@@ -58,7 +67,9 @@ namespace Pandemi.Controllers
                     Entry = addJournalEntryViewModel.Entry,
                     FamilyMember = newFamilyMember,
                     EntryDate = addJournalEntryViewModel.EntryDate,
-                    EntryFile = UploadedFile(addJournalEntryViewModel)
+                 
+                    EntryFile = UploadedFile(addJournalEntryViewModel),
+                    UserId = user.Id
                 };
 
                 context.JournalEntries.Add(newJournalEntry);
