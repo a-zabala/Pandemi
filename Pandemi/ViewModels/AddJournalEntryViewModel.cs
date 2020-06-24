@@ -12,6 +12,7 @@ namespace Pandemi.ViewModels
     public class AddJournalEntryViewModel
     {
         public string FamilyMember { get; set; }
+        //public int ID { get; set; }
 
         [Required(ErrorMessage = "You must enter some text for your entry")]
         public string Entry { get; set; }
@@ -25,7 +26,10 @@ namespace Pandemi.ViewModels
         
         [Display(Name = "Entry File")]
         public IFormFile EntryFile { get; set; }
-
+        //public string EntryFile { get; set; }
+        public string FileName { get; set; }
+        public int ID { get; set; }
+        //public string Name { get; set; }
 
         public List<SelectListItem> FamilyMembers { get; set; }
 

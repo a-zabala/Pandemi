@@ -24,12 +24,10 @@ namespace Pandemi.ViewModels
 
         public EditBookViewModel() 
         {
-            
-        
-        
         }
         public EditBookViewModel(IEnumerable<FamilyMember> familymembers)
         {
+           
             FamilyMembers = new List<SelectListItem>();
             foreach (FamilyMember familymember in familymembers)
             {

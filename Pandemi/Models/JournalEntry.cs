@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Pandemi.Models
         public string Entry { get; set; }
         public string EntryFile { get; set; }
         public string Name { get; set; }
+        //public IFormFile ImageFile {get;set;}
 
         
         [DataType(DataType.Date)]

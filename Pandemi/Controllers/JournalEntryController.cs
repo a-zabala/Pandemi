@@ -14,6 +14,7 @@ using Humanizer;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Pandemi.Data.Migrations;
 
 namespace Pandemi.Controllers
 {
@@ -49,8 +50,6 @@ namespace Pandemi.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Add(AddJournalEntryViewModel addJournalEntryViewModel)
-
         public async Task<IActionResult> Add(AddJournalEntryViewModel addJournalEntryViewModel)
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -100,12 +99,53 @@ namespace Pandemi.Controllers
 
             return View(journalentry);
         }
-        // POST: Books/Edit/5
-       
+        // GET: JournalEntry/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            var journalEntry = context.JournalEntries.Where(s => s.UserId == user.Id).Include(e => e.FamilyMember).FirstOrDefault(m => m.ID == id);
+            EditJournalEntryViewModel editJournalEntryViewModel = new EditJournalEntryViewModel()
+            {
+               
+
+               Entry = journalEntry.Entry,
+                FamilyMemberID = journalEntry.FamilyMemberID,
+                EntryDate = journalEntry.EntryDate,
+                
+             // FileName = UploadedFile(journalEntry),
+             EntryFile = journalEntry.EntryFile,
+             // UserId = journalEntry.User.Id
+
+            };
+            //journalEntry.EntryFile = UploadedFile(editJournalEntryViewModel);
+
+            if (journalEntry == null)
+            {
+                return NotFound();
+            }
+            
+            ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers.Where(s => s.UserId == user.Id), "ID", "FirstName");
+            //journalEntry.EntryFile = UploadedFile(addJournalEntryViewModel);
+
+            return View(editJournalEntryViewModel);
+
+        }
+        // POST: JournalEntry/Edit/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, JournalEntry journalentry)
         {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            journalentry.UserId = user.Id;
+
             if (id != journalentry.ID)
             {
                 return NotFound();
@@ -115,6 +155,8 @@ namespace Pandemi.Controllers
             {
                 try
                 {
+                    //journalentry.ID = id;
+
                     context.Update(journalentry);
                     await context.SaveChangesAsync();
                 }
@@ -131,9 +173,41 @@ namespace Pandemi.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers, "ID", "ID", journalentry .FamilyMemberID);
+            ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers.Where(s => s.UserId == user.Id), "ID", "ID", journalentry.FamilyMemberID);
+            //ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers, "ID", "ID", journalentry.FamilyMemberID);
             return View(journalentry);
         }
+
+        // GET: JournalEntry/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var journalEntry = await context.JournalEntries
+                .Include(b => b.FamilyMember)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (journalEntry == null)
+            {
+                return NotFound();
+            }
+
+            return View(journalEntry);
+        }
+
+        // POST: Books/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var journalEntry = await context.JournalEntries.FindAsync(id);
+            context.JournalEntries.Remove(journalEntry);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool JournalEntryExists(int id)
         {
             return context.JournalEntries.Any(e => e.ID == id);
@@ -154,6 +228,40 @@ namespace Pandemi.Controllers
             }
             return uniqueFileName;
         }
+        /*private string UploadedFile(EditJournalEntryViewModel editJournalEntryViewModel)
+        {
+            string uniqueFileName = null;
 
+            if (editJournalEntryViewModel.EntryFile != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + editJournalEntryViewModel.EntryFile;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    editJournalEntryViewModel.EntryFile.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }*/
+       /* private string UploadedFile(JournalEntry journalEntry)
+        {
+            string uniqueFileName = null;
+
+            if (journalEntry.EntryFile != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + journalEntry.ImageFile.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    journalEntry.ImageFile.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
+*/
     }
+
+
 }

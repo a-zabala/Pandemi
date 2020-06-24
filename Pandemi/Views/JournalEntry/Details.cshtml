@@ -35,10 +35,10 @@
 
         <img src="~/images/@Model.EntryFile"
              class="rounded"
-             height="200" width="300"
+             height="200" 
              asp-append-version="true" />
     </div>
 
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new {id = Model.ID}) |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -1,10 +1,17 @@
 ﻿@model IList<Pandemi.Models.Book>
+@using Pandemi.Models
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
 
 @{
     ViewData["Title"] = "We Read Many Books!";
 }
+@{ var user = await UserManager.GetUserAsync(User);}
+<h1>@(user.FamilyName) Book List</h1>
+<h2>We Read Many Books !</h2>
 
-<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Add a Book</a>
@@ -45,7 +52,7 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@book.ID">Edit</a> |
-                   <!-- <a asp-action="Details" asp-route-id="@book.ID">Details</a> -->
+                    <!-- <a asp-action="Details" asp-route-id="@book.ID">Details</a> -->
                     <a asp-action="Delete" asp-route-id="@book.ID">Delete</a>
                 </td>
             </tr>

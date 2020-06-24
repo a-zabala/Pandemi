@@ -1,0 +1,75 @@
+﻿@model Pandemi.ViewModels.EditJournalEntryViewModel
+@using Pandemi.Models
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+    <div class="text-center">
+        @{ var user = await UserManager.GetUserAsync(User);}
+        <h1 class="display-4">Edit Entry in  @(user.FamilyName) Journal</h1>
+
+    </div>
+
+<form asp-controller="JournalEntry" asp-action="Edit" enctype="multipart/form-data" method="post">
+    <input type="hidden" asp-for="ID" />
+
+
+    <div class="form-group">
+        <label asp-for="FamilyMemberID" class="control-label"></label>
+        <select asp-for="FamilyMemberID" class="form-control" asp-items="ViewBag.FamilyMemberID"></select>
+
+
+        <span asp-validation-for="FamilyMemberID" class="text-danger"></span>
+
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EntryDate"></label>
+        <input class="form-control" asp-for="EntryDate" />
+        <span asp-validation-for="EntryDate"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Entry"></label>
+        <input class="form-control" asp-for="Entry" />
+        <span asp-validation-for="Entry"></span>
+    </div>
+    <!--<div class="form-group">
+
+
+
+         <label asp-for="EntryFile" class="control-label"></label>
+         <div class="custom-file">
+             <input asp-for="EntryFile" class="custom-file-input" id="customFile">
+             <label class="custom-file-label" for="customFile">Choose file</label>
+         </div>
+         <span asp-validation-for="EntryFile" class="text-danger"></span>
+
+     </div>-->
+    <div>
+
+        <img src="~/images/@Model.EntryFile"
+             class="rounded"
+             height="200"
+             asp-append-version="true" />
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="Edit Entry" />
+    </div>
+</form>
+@section scripts{
+    <script type="text/javascript">
+
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}
