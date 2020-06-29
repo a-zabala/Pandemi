@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -17,20 +15,20 @@ using Pandemi.ViewModels;
 namespace Pandemi.Controllers
 {
     [Authorize]
-    public class BooksController : Controller
+    public class FoodsController : Controller
     {
         private readonly ApplicationDbContext context;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly UserManager<AppUser> _userManager;
 
-        public BooksController(ApplicationDbContext dbContext, IWebHostEnvironment hostEnvironment, UserManager<AppUser> userManager)
+        public FoodsController(ApplicationDbContext dbContext, IWebHostEnvironment hostEnvironment, UserManager<AppUser> userManager)
         {
-           context = dbContext;
+            context = dbContext;
             webHostEnvironment = hostEnvironment;
             _userManager = userManager;
         }
 
-        // GET: Books
+        // GET: Foods
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -39,12 +37,12 @@ namespace Pandemi.Controllers
             //return View(familymembers);
 
             //var userName = User.Identity.Name;
-            var books = context.Books.Include(b => b.FamilyMember).Where(s => s.UserId == user.Id).ToList();
+            var foods = context.Foods.Include(b => b.FamilyMember).Where(s => s.UserId == user.Id).ToList();
             //return View(await applicationDbContext.ToListAsync());
-            return View(books);
+            return View(foods);
         }
 
-        // GET: Books/Details/5
+        // GET: Foods/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,33 +50,33 @@ namespace Pandemi.Controllers
                 return NotFound();
             }
 
-            var book = await context.Books
+            var food = await context.Foods
                 .Include(b => b.FamilyMember)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (book == null)
+            if (food == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(food);
         }
 
-        // GET: Books/Create
-        public async Task<IActionResult> Create()
+        // GET: Foods/Add
+        public async Task<IActionResult> Add()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            AddBookViewModel addBookViewModel =
-                new AddBookViewModel(context.FamilyMembers.Where(s => s.UserId == user.Id).ToList());
-            return View(addBookViewModel);
+            AddFoodViewModel addFoodViewModel =
+                new AddFoodViewModel(context.FamilyMembers.Where(s => s.UserId == user.Id).ToList());
+            return View(addFoodViewModel);
         }
 
-        // POST: Books/Create
+        // POST: Foods/Add
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-       // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AddBookViewModel addBookViewModel)
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(AddFoodViewModel addFoodViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -86,63 +84,64 @@ namespace Pandemi.Controllers
 
 
                 FamilyMember newFamilyMember =
-                  context.FamilyMembers.Where(s => s.UserId == user.Id).Single(c => c.ID == addBookViewModel.FamilyMemberID);
+                  context.FamilyMembers.Where(s => s.UserId == user.Id).Single(c => c.ID == addFoodViewModel.FamilyMemberID);
                 // Add the new book to my existing books
-                Book newBook = new Book
+                Food newFood = new Food
                 {
-                    Title = addBookViewModel.Title,
-                    Notes = addBookViewModel.Notes,
+                    Name = addFoodViewModel.Name,
+                    Notes = addFoodViewModel.Notes,
                     FamilyMember = newFamilyMember,
-                    Author = addBookViewModel.Author,
+                    Website = addFoodViewModel.Website,
                     UserId = user.Id
 
                 };
 
-                context.Books.Add(newBook);
+                context.Foods.Add(newFood);
                 //await context.SaveChangesAsync();
                 context.SaveChanges();
                 //return RedirectToAction(nameof(Index));
 
-                return Redirect("/Books"); 
+                return Redirect("/Foods");
             }
-            return View(addBookViewModel);
+            return View(addFoodViewModel);
         }
 
         // GET: Books/Edit/5
-            public async Task<IActionResult> Edit(int? id) { 
+        public async Task<IActionResult> Edit(int? id)
+        {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
             if (id == null)
-                {
-                    return NotFound();
-                }
+            {
+                return NotFound();
+            }
 
             //Book book= context.Books
             //.Include(e => e.FamilyMember).FirstOrDefaultAsync(m => m.ID == id);
             //var book = context.Books.FindAsync(id);
-            
-            var book = context.Books.Where(s => s.UserId == user.Id).Include(e=>e.FamilyMember).FirstOrDefault(m=>m.ID==id);
-            
-            EditBookViewModel editBookViewModel = new EditBookViewModel()
+
+            var food = context.Foods.Where(s => s.UserId == user.Id).Include(e => e.FamilyMember).FirstOrDefault(m => m.ID == id);
+
+            AddFoodViewModel addFoodViewModel = new AddFoodViewModel()
             {
-                Author = book.Author,
-                Notes = book.Notes,
-                Title = book.Title,
-                FamilyMemberID = book.FamilyMemberID,
-               UserId = book.User.Id
+                Name = food.Name,
+                Notes = food.Notes,
+                FamilyMemberID = food.FamilyMemberID,
+                Website = food.Website,
+                UserId = food.User.Id
             };
 
 
-                if (book == null)
-                {
-                    return NotFound();
-                }
-           // ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers, "ID", "ID");
-           
+            if (food == null)
+            {
+                return NotFound();
+            }
+            // ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers, "ID", "ID");
+
             ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers.Where(s => s.UserId == user.Id), "ID", "FirstName");
             //return View(book);
-            return View(editBookViewModel);
-           
+            return View(addFoodViewModel);
+
         }
 
         // POST: Books/Edit/5
@@ -150,13 +149,13 @@ namespace Pandemi.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Title,ID,FamilyMemberID,Notes,Author,UserId")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,ID,FamilyMemberID,Notes,Website,UserId")] Food food)
 
         {
-           var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            book.UserId = user.Id;
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            food.UserId = user.Id;
 
-            if (id != book.ID)
+            if (id != food.ID)
             {
                 return NotFound();
             }
@@ -165,12 +164,12 @@ namespace Pandemi.Controllers
             {
                 try
                 {
-                    context.Update(book);
+                    context.Update(food);
                     await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.ID))
+                    if (!FoodExists(food.ID))
                     {
                         return NotFound();
                     }
@@ -181,8 +180,8 @@ namespace Pandemi.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers.Where(s => s.UserId == user.Id), "ID", "ID", book.FamilyMemberID);
-            return View(book);
+            ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers.Where(s => s.UserId == user.Id), "ID", "ID", food.FamilyMemberID);
+            return View(food);
         }
 
         // GET: Books/Delete/5
@@ -194,15 +193,15 @@ namespace Pandemi.Controllers
                 return NotFound();
             }
 
-            var book = await context.Books
+            var food = await context.Foods
                 .Include(b => b.FamilyMember)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (book == null)
+            if (food == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(food);
         }
 
         // POST: Books/Delete/5
@@ -210,31 +209,32 @@ namespace Pandemi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await context.Books.FindAsync(id);
-            context.Books.Remove(book);
+            var food = await context.Foods.FindAsync(id);
+            context.Foods.Remove(food);
             await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        
-      //GET Book/IndividualBooks/familymember
+
+        //GET Book/IndividualFoods/familymember
         public async Task<IActionResult> Individual(int? id)
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            
 
-            var books = context.Books.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
+
+            var foods = context.Foods.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
 
             //ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers.Where(s => s.UserId == user.Id), "ID", "FirstName");
             //ViewData["FamilyMemberName"] = user.;
-             
 
-            return View(books);
+
+            return View(foods);
         }
-        
-        private bool BookExists(int id)
+
+        private bool FoodExists(int id)
         {
-            return context.Books.Any(e => e.ID == id);
+            return context.Foods.Any(e => e.ID == id);
         }
     }
 }
+

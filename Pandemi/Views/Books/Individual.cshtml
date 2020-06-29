@@ -9,13 +9,12 @@
     ViewData["Title"] = "We Read Many Books!";
 }
 @{ var user = await UserManager.GetUserAsync(User);}
-<h1>@(user.FamilyName) Book List</h1>
-<h2>We Read Many Books !</h2>
+<h2>Individual Book List for </h2>
+
 
 <p>
     <a asp-action="Create">+ Add a Book</a>
 </p>
-
 <table class="table">
     <thead>
         <tr>
@@ -52,24 +51,10 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@book.ID">Edit</a> |
-                    <a asp-action="Individual" asp-route-id="@book.FamilyMemberID">Individual</a> |
+                    <!-- <a asp-action="Details" asp-route-id="@book.ID">Details</a> -->
                     <a asp-action="Delete" asp-route-id="@book.ID">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<h3>Pick a Family Member to just view their books</h3>
-
-<div class="row">
-    <div class="col-large-7">
-        <p class="bs-component">
-               @foreach (var book in Model)
-            //@foreach (var familymember in user)
-            {
-            <button class="btn btn-primary btn-lg" type="button" onclick="location.href = '@Url.Action("Individual","Books", new { id=book.FamilyMember.ID })'">@book.FamilyMember.FirstName</button>
-            }
-        </p>
-    </div>
-</div>
-

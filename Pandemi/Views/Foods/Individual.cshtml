@@ -1,0 +1,60 @@
+﻿@model IList<Pandemi.Models.Food>
+@using Pandemi.Models
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    ViewData["Title"] = "We Cooked Many Foods!";
+}
+@{ var user = await UserManager.GetUserAsync(User);}
+<h2>Individual Food List for </h2>
+
+
+<p>
+    <a asp-action="Add">+ Add a Food</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                Website
+            </th>
+            <th>
+                Who cooked it?
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => food.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => food.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => food.Website)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => food.FamilyMember.FirstName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@food.ID">Edit</a> |
+                    <!-- <a asp-action="Details" asp-route-id="@food.ID">Details</a> -->
+                    <a asp-action="Delete" asp-route-id="@food.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

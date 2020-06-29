@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Pandemi.Models.Accomplishment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Accomplishments</h1>
+<h1>Way to Go !</h1>
+
+<p>
+    <a asp-action="Create">+ Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FamilyMember.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                Accomplishment/Skill
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FamilyMember.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

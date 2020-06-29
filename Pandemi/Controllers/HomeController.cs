@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pandemi.Data;
 using Pandemi.Models;
@@ -47,7 +48,25 @@ namespace Pandemi.Controllers
             //List<FamilyMember> familymembers = context.FamilyMembers.ToList();
             //return View(familymembers);
         }
+        // GET: Home/IndividualInfo/5
+        public async Task<IActionResult> IndividualInfo(int? id)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var familymember = await context.FamilyMembers.FirstOrDefaultAsync(m => m.ID == id);
+            if (familymember == null)
+            {
+                return NotFound();
+            }
+
+            return View(familymember);
+        }
+
+            
         public IActionResult Privacy()
         {
             return View();

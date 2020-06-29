@@ -1,0 +1,74 @@
+﻿@model IList<Pandemi.Models.Food>
+@using Pandemi.Models
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    ViewData["Title"] = "We Cooked A Lot!";
+}
+@{ var user = await UserManager.GetUserAsync(User);}
+<h1>@(user.FamilyName) Food List</h1>
+<h2>We Cooked A Lot !</h2>
+
+<p>
+    <a asp-action="Add">+ Add a Food</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                Website
+            </th>
+            <th>
+                Who cooked it?
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => food.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => food.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => food.Website)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => food.FamilyMember.FirstName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@food.ID">Edit</a> |
+                    <a asp-action="Individual" asp-route-id="@food.FamilyMemberID">Individual</a> |
+                    <a asp-action="Delete" asp-route-id="@food.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h3>Pick a Family Member to just view their foods</h3>
+
+<div class="row">
+    <div class="col-large-7">
+        <p class="bs-component">
+            @foreach (var food in Model)
+            //@foreach (var familymember in user)
+            {
+                <button class="btn btn-primary btn-lg" type="button" onclick="location.href = '@Url.Action("Individual","Foods", new { id=food.FamilyMember.ID })'">@food.FamilyMember.FirstName</button>
+            }
+        </p>
+    </div>
+</div>

@@ -16,8 +16,9 @@ namespace Pandemi.Data
         public DbSet<JournalEntry> JournalEntries { get; set; }
         public DbSet<FamilyMember> FamilyMembers { get; set; }
         public DbSet<Book> Books { get; set; }
+        public DbSet<Accomplishment> Accomplishments { get; set; }
         public DbSet<Image> Images { get; set; }
-
+        public DbSet<Food> Foods { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
            : base(options)
         { }
