@@ -9,7 +9,7 @@
     ViewData["Title"] = "We Cooked A Lot!";
 }
 @{ var user = await UserManager.GetUserAsync(User);}
-<h1>@(user.FamilyName) Food List</h1>
+<h1 class="text-center text-uppercase">@(user.FamilyName) Food List</h1>
 <h2>We Cooked A Lot !</h2>
 
 <p>
@@ -18,7 +18,7 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr class="table-info">
             <th>
                 Name
             </th>
@@ -29,7 +29,7 @@
                 Website
             </th>
             <th>
-                Who cooked it?
+                Cook
             </th>
             <th></th>
         </tr>
@@ -37,7 +37,7 @@
     <tbody>
         @foreach (var food in Model)
         {
-            <tr>
+            <tr class="table-info">
                 <td>
                     @Html.DisplayFor(modelItem => food.Name)
                 </td>
@@ -45,14 +45,12 @@
                     @Html.DisplayFor(modelItem => food.Notes)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => food.Website)
-                </td>
+                    <a href="@food.Website" target="_blank"> @Html.DisplayFor(modelItem => food.Website)</a>                </td>
                 <td>
                     @Html.DisplayFor(modelItem => food.FamilyMember.FirstName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@food.ID">Edit</a> |
-                    <a asp-action="Individual" asp-route-id="@food.FamilyMemberID">Individual</a> |
                     <a asp-action="Delete" asp-route-id="@food.ID">Delete</a>
                 </td>
             </tr>

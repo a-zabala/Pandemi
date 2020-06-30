@@ -44,8 +44,7 @@
                     @Html.DisplayFor(modelItem => food.Notes)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => food.Website)
-                </td>
+                    <a href="@food.Website" target="_blank"> @Html.DisplayFor(modelItem => food.Website)</a>                </td>
                 <td>
                     @Html.DisplayFor(modelItem => food.FamilyMember.FirstName)
                 </td>

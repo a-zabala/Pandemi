@@ -21,42 +21,34 @@
 
     <div class="btn-group" style="width:100%">
 
-        <button style="width:33.3%" class="btn btn-primary btn-lg" type="button" onclick="location.href = '@Url.Action("Index","JournalEntry")'">Journal</button>
-        <button style="width:33.3%" class="btn btn-success btn-lg" type="button" onclick="location.href = '@Url.Action("Index","Foods")'">Foods</button>
-        <button style="width:33.3%" class="btn btn-danger btn-lg" type="button" onclick="location.href = '@Url.Action("Index","Books")'">Books</button>
+        <button style="width:33.3%" class="btn btn-outline-primary  btn-lg" type="button" onclick="location.href = '@Url.Action("Index","JournalEntry")'">Journal</button>
+        <button style="width:33.3%" class="btn btn-outline-info btn-lg" type="button" onclick="location.href = '@Url.Action("Index","Foods")'">Foods</button>
+        <button style="width:33.3%" class="btn btn-outline-danger btn-lg" type="button" onclick="location.href = '@Url.Action("Index","Books")'">Books</button>
 
     </div>
 
     <h1></h1>
-    <div class="btn-group" style="width:100%">
-        <button style="width:33.3%" class="btn btn-secondary btn-lg" type="button">Movies</button>
-        <button style="width:33.3%" class="btn btn-warning btn-lg" type="button" onclick="location.href = '@Url.Action("Index","Accomplishments")'">Accomplishments</button>
-        <button style="width:33.3%" class="btn btn-secondary btn-lg" type="button">Future</button>
+    <div class="btn-group" style="width:66.6%">
+        <!--<button style="width:33.3%" class="btn btn-outline-warning btn-lg" type="button">Movies</button>-->
+        <button style="width:33.3%" class="btn btn-outline-success btn-lg" type="button" onclick="location.href = '@Url.Action("Index","Accomplishments")'">Accomplishments</button>
+        <button style="width:33.3%" class="btn btn-outline-warning btn-lg" type="button">Future</button>
     </div>
 
     <div class="text-center">
         <h1 class="display-4">OR</h1>
 
     </div>
-    <h1>Go to Private Page:</h1>
+    <h1>Go to Family Member Records Page:</h1>
 }
 
 @foreach (var familymember in Model)
 {
-    <button class="btn btn-primary btn-lg" type="button"onclick="location.href = '@Url.Action("Individual","Books", new { id = familymember.ID })'">@familymember.FirstName</button>
+    <button class="btn btn-primary btn-lg" type="button"onclick="location.href = '@Url.Action("Report","FamilyMember", new { id = familymember.ID })'">@familymember.FirstName</button>
     <h1></h1>
 
 
 }
-<!---<button class="btn btn-success btn-lg" type="button">Name</button>
-<h1></h1>
-<button class="btn btn-info btn-lg" type="button">Name</button>
-<h1></h1>
-<button class="btn btn-danger btn-lg" type="button">Name</button>
-<h1></h1>
-<button class="btn btn-warning btn-lg" type="button">Name</button>
-<h1></h1>
-<!--<button class="btn btn-link" type="button">+ Add Family Member</button>-->
+
 <p><a asp-controller="FamilyMember" asp-action="Add">+ Add Family Member</a></p>
 
 

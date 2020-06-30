@@ -1,4 +1,4 @@
-﻿@model IList<Pandemi.Models.Book>
+﻿@model Pandemi.ViewModels.BooksViewModel
 @using Pandemi.Models
 
 @using Microsoft.AspNetCore.Identity
@@ -18,7 +18,7 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr class="table-danger">
             <th>
                 Title
             </th>
@@ -29,15 +29,15 @@
                 Author
             </th>
             <th>
-                Who read it?
+                Reader
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var book in Model)
+        @foreach (var book in Model.Books)
         {
-            <tr>
+            <tr class="table-danger">
                 <td>
                     @Html.DisplayFor(modelItem => book.Title)
                 </td>
@@ -52,7 +52,7 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@book.ID">Edit</a> |
-                    <a asp-action="Individual" asp-route-id="@book.FamilyMemberID">Individual</a> |
+                    <a asp-action="Details" asp-route-id="@book.ID">Details</a> |
                     <a asp-action="Delete" asp-route-id="@book.ID">Delete</a>
                 </td>
             </tr>
@@ -64,10 +64,9 @@
 <div class="row">
     <div class="col-large-7">
         <p class="bs-component">
-               @foreach (var book in Model)
-            //@foreach (var familymember in user)
+            @foreach (var familyMember in Model.FamilyMembers)
             {
-            <button class="btn btn-primary btn-lg" type="button" onclick="location.href = '@Url.Action("Individual","Books", new { id=book.FamilyMember.ID })'">@book.FamilyMember.FirstName</button>
+                <button class="btn btn-primary btn-lg" type="button" onclick="location.href = '@Url.Action("Individual","Books", new { id=familyMember.ID })'">@familyMember.FirstName</button>
             }
         </p>
     </div>

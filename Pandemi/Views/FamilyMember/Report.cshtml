@@ -1,0 +1,195 @@
+﻿@model Pandemi.ViewModels.ReportViewModel
+@using Pandemi.Models
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    ViewData["Title"] = "We Read Many Books!";
+}
+@{ var user = await UserManager.GetUserAsync(User);}
+<h1>Individual Report for @(Model.FamilyMember.FirstName)</h1>
+<h1>Books</h1>
+
+<p>
+    <a asp-controller="Books" asp-action="Create">+ Add a Book</a>
+</p>
+<table class="table">
+    <thead>
+        <tr class="table-danger">
+            <th>
+                Title
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Reader
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model.Books)
+        {
+            <tr class="table-danger">
+                <td>
+                    @Html.DisplayFor(modelItem => book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => book.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => book.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => book.FamilyMember.FirstName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@book.ID">Edit</a> |
+                    <!-- <a asp-action="Details" asp-route-id="@book.ID">Details</a> -->
+                    <a asp-action="Delete" asp-route-id="@book.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h1>Foods</h1>
+<p>
+    <a asp-controller="Foods" asp-action="Add">+ Add a Food</a>
+</p>
+<table class="table">
+    <thead>
+        <tr class="table-info">
+            <th>
+                Name
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                Website
+            </th>
+            <th>
+                Cook
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model.Foods)
+        {
+            <tr class="table-info">
+                <td>
+                    @Html.DisplayFor(modelItem => food.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => food.Notes)
+                </td>
+                <td>
+                    <a href="@food.Website" target="_blank"> @Html.DisplayFor(modelItem => food.Website)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => food.FamilyMember.FirstName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@food.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@food.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@food.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h1>Accomplishments</h1>
+<p>
+    <a asp-controller="Accomplishments" asp-action="Add">+ Add an Accomplishment</a>
+</p>
+<table class="table">
+    <thead>
+        <tr class="table-success">
+
+            <th>
+                Date
+            </th>
+            <th>
+                Accomplishments
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                Family Member
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var accomplishment in Model.Accomplishments)
+        {
+        <tr class="table-success">
+
+            <td>
+                @Html.DisplayFor(modelItem => accomplishment.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => accomplishment.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => accomplishment.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => accomplishment.FamilyMember.FirstName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@accomplishment.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@accomplishment.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@accomplishment.ID">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<h1>Journal Entries</h1>
+
+<p>
+    <a asp-controller="JournalEntry" asp-action="Add">+ Add a Journal Entry</a>
+</p>
+<table class="table">
+
+    <tr class="table-primary">
+        <th>Pic</th>
+        <th>Date</th>
+        <th>Entry</th>
+        <th>Author</th>
+        <th></th>
+
+    </tr>
+
+    @foreach (var entry in Model.JournalEntries)
+    {
+<tr class="table-primary">
+    <td>
+        <img src="~/images/@entry.EntryFile"
+             class="center-block"
+             height="100"
+             asp-append-version="true" />
+
+    </td>
+    <td>@entry.EntryDate.ToShortDateString()</td>
+    <td>@entry.Entry</td>
+    <td>@entry.FamilyMember.FirstName</td>
+
+
+    <td class="table-primary">
+        <a asp-action="Edit" asp-route-id="@entry.ID">Edit</a> |
+        <a asp-action="Details" asp-route-id="@entry.ID">Details</a> |
+        <a asp-action="Delete" asp-route-id="@entry.ID">Delete</a>
+    </td>
+</tr>
+    }
+</table>

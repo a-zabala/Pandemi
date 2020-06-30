@@ -58,5 +58,19 @@ namespace Pandemi.Controllers
 
             return View(addFamilyMemberViewModel);
         }
+        //GET FamilyMember/Report/familymember
+        public async Task<IActionResult> Report(int? id)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var vm = new ReportViewModel();
+            vm.Books = context.Books.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
+            vm.FamilyMember = context.FamilyMembers.First(s => s.ID == id);
+            vm.Foods = context.Foods.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
+            vm.Accomplishments = context.Accomplishments.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
+            vm.JournalEntries= context.JournalEntries.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
+
+            return View(vm);
+        }
     }
 }

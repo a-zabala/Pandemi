@@ -13,34 +13,38 @@
 
 <table class="table">
 
-    <tr>
+    <tr class="table-primary">
         <th>Pic</th>
         <th>Date</th>
-        <th>Author</th>
+
         <th>Entry</th>
+        <th>Author</th>
+        <th></th>
+
     </tr>
 
     @foreach (var entry in Model)
     {
-        <tr>
-            <td>
-                <img src="~/images/@entry.EntryFile"
-                     class="center-block"
-                     height="100" 
-                     asp-append-version="true" />
+<tr class="table-primary">
+    <td>
+        <img src="~/images/@entry.EntryFile"
+             class="center-block"
+             height="100"
+             asp-append-version="true" />
 
-            </td>
-            <td>@entry.EntryDate.ToShortDateString()</td>
-            <td>@entry.FamilyMember.FirstName</td>
-            <td>@entry.Entry</td>
+    </td>
+    <td>@entry.EntryDate.ToShortDateString()</td>
+    <td>@entry.Entry</td>
+    <td>@entry.FamilyMember.FirstName</td>
 
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@entry.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@entry.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@entry.ID">Delete</a>
-            </td>
-        </tr>
+
+    <td class="table-primary">
+        <a asp-action="Edit" asp-route-id="@entry.ID">Edit</a> |
+        <a asp-action="Details" asp-route-id="@entry.ID">Details</a> |
+        <a asp-action="Delete" asp-route-id="@entry.ID">Delete</a>
+    </td>
+</tr>
     }
 </table>
 

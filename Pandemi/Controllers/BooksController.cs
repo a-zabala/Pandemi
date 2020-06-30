@@ -34,14 +34,12 @@ namespace Pandemi.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            //IList<FamilyMember> familymembers = context.FamilyMembers.Where(s => s.UserId == user.Id).ToList();
-            //return View(familymembers);
-
-            //var userName = User.Identity.Name;
-            var books = context.Books.Include(b => b.FamilyMember).Where(s => s.UserId == user.Id).ToList();
+            var vm = new BooksViewModel();
+           
+            vm.Books = context.Books.Include(b => b.FamilyMember).Where(s => s.UserId == user.Id).ToList();
+            vm.FamilyMembers = context.FamilyMembers.Where(s => s.UserId == user.Id).ToList();
             //return View(await applicationDbContext.ToListAsync());
-            return View(books);
+            return View(vm);
         }
 
         // GET: Books/Details/5
@@ -221,15 +219,16 @@ namespace Pandemi.Controllers
         public async Task<IActionResult> Individual(int? id)
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            
 
-            var books = context.Books.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
 
-            //ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers.Where(s => s.UserId == user.Id), "ID", "FirstName");
-            //ViewData["FamilyMemberName"] = user.;
-             
+            //var books = context.Books.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
+            var vm = new BooksViewModel();
+            vm.Books = context.Books.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
+            vm.FamilyMember = context.FamilyMembers.First(s=>s.ID == id);
 
-            return View(books);
+
+
+            return View(vm);
         }
         
         private bool BookExists(int id)

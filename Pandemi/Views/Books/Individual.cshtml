@@ -1,4 +1,4 @@
-﻿@model IList<Pandemi.Models.Book>
+﻿@model Pandemi.ViewModels.BooksViewModel
 @using Pandemi.Models
 
 @using Microsoft.AspNetCore.Identity
@@ -9,7 +9,7 @@
     ViewData["Title"] = "We Read Many Books!";
 }
 @{ var user = await UserManager.GetUserAsync(User);}
-<h2>Individual Book List for </h2>
+<h2>Individual Book List for @(Model.FamilyMember.FirstName)</h2>
 
 
 <p>
@@ -34,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var book in Model)
+        @foreach (var book in Model.Books)
         {
             <tr>
                 <td>

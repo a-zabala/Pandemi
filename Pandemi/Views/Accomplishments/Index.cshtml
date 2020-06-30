@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<Pandemi.Models.Accomplishment>
-
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
 @{
     ViewData["Title"] = "Index";
 }
-<h1>Accomplishments</h1>
+@{ var user = await UserManager.GetUserAsync(User);}
+
+<h1>@(user.FamilyName) Accomplishments</h1>
 <h1>Way to Go !</h1>
 
 <p>
@@ -11,19 +15,20 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FamilyMember.FirstName)
-            </th>
+        <tr class="table-success">
+
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
-                Accomplishment/Skill
+                Accomplishment
             </th>
 
             <th>
                 @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FamilyMember.FirstName)
             </th>
 
 
@@ -31,11 +36,10 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FamilyMember.FirstName)
-            </td>
+        @foreach (var item in Model)
+        {
+        <tr class="table-success">
+
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
@@ -46,6 +50,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Notes)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FamilyMember.FirstName)
+            </td>
 
 
             <td>
@@ -54,6 +61,19 @@
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
+<h3>Pick a Family Member to just view their accomplishments</h3>
+
+<!--<div class="row">
+    <div class="col-large-7">
+        <p class="bs-component">
+            foreach (var familyMember in Model.FamilyMembers)
+            {
+                <button class="btn btn-primary btn-lg" type="button" onclick="location.href = 'Url.Action("Individual","Accomplishment", new { id=familyMember.ID })'">familyMember.FirstName</button>
+            }
+        </p>
+    </div>
+</div>-->
+

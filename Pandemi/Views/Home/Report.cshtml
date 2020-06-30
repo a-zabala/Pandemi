@@ -1,5 +1,4 @@
-﻿@model Pandemi.Models.FamilyMember
-<!--using Pandemi.Models-->
+﻿@using Pandemi.Models
 
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<AppUser> UserManager
@@ -35,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var book in Model.Books)
+        @foreach (Book book in Model)
         {
             <tr>
                 <td>
