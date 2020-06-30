@@ -9,8 +9,8 @@
     ViewData["Title"] = "We Read Many Books!";
 }
 @{ var user = await UserManager.GetUserAsync(User);}
-<h1>@(user.FamilyName) Book List</h1>
-<h2>We Read Many Books !</h2>
+<h1 class="text-center text-uppercase text-danger">@(user.FamilyName) Book List</h1>
+<h2 class="text-dange">We Read Many Books!</h2>
 
 <p>
     <a asp-action="Create">+ Add a Book</a>

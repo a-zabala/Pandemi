@@ -7,8 +7,8 @@
 }
 @{ var user = await UserManager.GetUserAsync(User);}
 
-<h1>@(user.FamilyName) Accomplishments</h1>
-<h1>Way to Go !</h1>
+<h1 class="text-center text-uppercase text-success">@(user.FamilyName) Accomplishments</h1>
+<h2 class="text-success">Way to Go!</h2>
 
 <p>
     <a asp-action="Create">+ Add New</a>

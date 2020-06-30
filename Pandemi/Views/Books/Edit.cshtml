@@ -5,7 +5,9 @@
     ViewBag.Title = "Edit" + "__";
 }
 
+<h1>Edit</h1>
 
+<h4>Accomplishment</h4>
 
 <!--<h4>//ViewBag.Title</h4>-->
 <hr />
@@ -22,7 +24,7 @@
             <div class="form-group">
                 <label asp-for="FamilyMemberID" class="control-label"></label>
                 <select asp-for="FamilyMemberID" class="form-control" asp-items="ViewBag.FamilyMemberID"></select>
-               
+
 
                 <span asp-validation-for="FamilyMemberID" class="text-danger"></span>
 

@@ -2,12 +2,14 @@
 @{
     ViewData["Title"] = "Add";
 }
-
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+@{ var user = await UserManager.GetUserAsync(User);}
 <div class="text-center">
-    <h1 class="display-4">Add Entry to LastName Journal</h1>
+    <h1 class="display-4">Add Entry to @(user.FamilyName) Journal</h1>
 
 </div>
-
 <form asp-controller="JournalEntry" asp-action="Add" enctype="multipart/form-data" method="post">
 
     <div class="form-group">
@@ -30,11 +32,11 @@
         <input asp-for="EntryFile" type="file" id="entryFileId" name="entryFile" />
         <span asp-validation-for="EntryFile"></span> -->
         <label asp-for="EntryFile" class="control-label"></label>
-         <div class="custom-file">
-             <input asp-for="EntryFile" class="custom-file-input" id="customFile">
-             <label class="custom-file-label" for="customFile">Choose file</label>
-         </div>
-         <span asp-validation-for="EntryFile" class="text-danger"></span> 
+        <div class="custom-file">
+            <input asp-for="EntryFile" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+        <span asp-validation-for="EntryFile" class="text-danger"></span>
     </div>
 
 
@@ -50,5 +52,5 @@
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
-    </script>  
+    </script>
 }

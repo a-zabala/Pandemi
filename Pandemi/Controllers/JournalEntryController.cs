@@ -111,7 +111,7 @@ namespace Pandemi.Controllers
 
 
             var journalEntry = context.JournalEntries.Where(s => s.UserId == user.Id).Include(e => e.FamilyMember).FirstOrDefault(m => m.ID == id);
-            EditJournalEntryViewModel editJournalEntryViewModel = new EditJournalEntryViewModel()
+            AddJournalEntryViewModel addJournalEntryViewModel = new AddJournalEntryViewModel()
             {
                
 
@@ -119,12 +119,11 @@ namespace Pandemi.Controllers
                 FamilyMemberID = journalEntry.FamilyMemberID,
                 EntryDate = journalEntry.EntryDate,
                 
-             // FileName = UploadedFile(journalEntry),
-             EntryFile = journalEntry.EntryFile,
+              FileName = journalEntry.EntryFile,
+             //Name = journalEntry.EntryFile,
              // UserId = journalEntry.User.Id
 
             };
-            //journalEntry.EntryFile = UploadedFile(editJournalEntryViewModel);
 
             if (journalEntry == null)
             {
@@ -133,8 +132,9 @@ namespace Pandemi.Controllers
             
             ViewData["FamilyMemberID"] = new SelectList(context.FamilyMembers.Where(s => s.UserId == user.Id), "ID", "FirstName");
             //journalEntry.EntryFile = UploadedFile(addJournalEntryViewModel);
+            journalEntry.EntryFile = addJournalEntryViewModel.FileName;
 
-            return View(editJournalEntryViewModel);
+            return View(addJournalEntryViewModel);
 
         }
         // POST: JournalEntry/Edit/5
@@ -145,6 +145,8 @@ namespace Pandemi.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             journalentry.UserId = user.Id;
+           //journalentry.EntryFile = journalentry.FileName;
+
 
             if (id != journalentry.ID)
             {
@@ -155,8 +157,7 @@ namespace Pandemi.Controllers
             {
                 try
                 {
-                    //journalentry.ID = id;
-
+                    
                     context.Update(journalentry);
                     await context.SaveChangesAsync();
                 }
@@ -259,8 +260,8 @@ namespace Pandemi.Controllers
                 }
             }
             return uniqueFileName;
-        }
-*/
+        }*/
+
     }
 
 

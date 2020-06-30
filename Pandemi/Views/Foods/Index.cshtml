@@ -9,8 +9,8 @@
     ViewData["Title"] = "We Cooked A Lot!";
 }
 @{ var user = await UserManager.GetUserAsync(User);}
-<h1 class="text-center text-uppercase">@(user.FamilyName) Food List</h1>
-<h2>We Cooked A Lot !</h2>
+<h1 class="text-center text-uppercase text-info">@(user.FamilyName) Food List</h1>
+<h2 class="text-info">We Cooked A Lot!</h2>
 
 <p>
     <a asp-action="Add">+ Add a Food</a>
