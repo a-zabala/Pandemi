@@ -34,11 +34,13 @@ namespace Pandemi.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            IList<JournalEntry> journalentries = context.JournalEntries.Include(c => c.FamilyMember).Where(s => s.UserId == user.Id).ToList();
+           var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var vm = new JournalEntriesViewModel();
 
-            return View(journalentries);
-            //return View();
+           vm.JournalEntries = context.JournalEntries.Include(c => c.FamilyMember).Where(s => s.UserId == user.Id).ToList();
+            vm.FamilyMembers = context.FamilyMembers.Where(s => s.UserId == user.Id).ToList();
+
+           return View(vm);
         }
         public async Task<IActionResult> Add()
         {
@@ -208,6 +210,20 @@ namespace Pandemi.Controllers
             await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        //GET Book/IndividualEntry/familymember
+        public async Task<IActionResult> Individual(int? id)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+
+            var vm = new JournalEntriesViewModel();
+            vm.JournalEntries = context.JournalEntries.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
+            vm.FamilyMember = context.FamilyMembers.First(s => s.ID == id);
+
+
+
+            return View(vm);
+        }
 
         private bool JournalEntryExists(int id)
         {
@@ -229,39 +245,7 @@ namespace Pandemi.Controllers
             }
             return uniqueFileName;
         }
-        /*private string UploadedFile(EditJournalEntryViewModel editJournalEntryViewModel)
-        {
-            string uniqueFileName = null;
-
-            if (editJournalEntryViewModel.EntryFile != null)
-            {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + editJournalEntryViewModel.EntryFile;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    editJournalEntryViewModel.EntryFile.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }*/
-       /* private string UploadedFile(JournalEntry journalEntry)
-        {
-            string uniqueFileName = null;
-
-            if (journalEntry.EntryFile != null)
-            {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + journalEntry.ImageFile.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    journalEntry.ImageFile.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }*/
-
+       
     }
 
 

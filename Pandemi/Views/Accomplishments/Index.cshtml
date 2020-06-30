@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pandemi.Models.Accomplishment>
+﻿@model Pandemi.ViewModels.AccomplishmentsViewModel
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<AppUser> UserManager
 @inject SignInManager<AppUser> SignInManager
@@ -18,17 +18,17 @@
         <tr class="table-success">
 
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Date
             </th>
             <th>
                 Accomplishment
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Notes)
+                Notes
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FamilyMember.FirstName)
+                Name            
             </th>
 
 
@@ -36,7 +36,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Accomplishments)
         {
         <tr class="table-success">
 
@@ -66,14 +66,14 @@
 </table>
 <h3>Pick a Family Member to just view their accomplishments</h3>
 
-<!--<div class="row">
+<div class="row">
     <div class="col-large-7">
         <p class="bs-component">
-            foreach (var familyMember in Model.FamilyMembers)
+            @foreach (var familyMember in Model.FamilyMembers)
             {
-                <button class="btn btn-primary btn-lg" type="button" onclick="location.href = 'Url.Action("Individual","Accomplishment", new { id=familyMember.ID })'">familyMember.FirstName</button>
+                <button class="btn btn-primary btn-lg" type="button" onclick="location.href = '@Url.Action("Individual","Accomplishments", new { id=familyMember.ID })'">@familyMember.FirstName</button>
             }
         </p>
     </div>
-</div>-->
+</div>
 

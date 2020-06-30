@@ -32,9 +32,12 @@ namespace Pandemi.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var vm = new AccomplishmentsViewModel();
 
-            var accomplishments = _context.Accomplishments.Include(a => a.FamilyMember).Where(s=>s.UserId == user.Id).ToList();
-            return View(accomplishments);
+             vm.Accomplishments = _context.Accomplishments.Include(c => c.FamilyMember).Where(s => s.UserId == user.Id).ToList();
+            vm.FamilyMembers = _context.FamilyMembers.Where(s => s.UserId == user.Id).ToList();
+
+             return View(vm);
         }
 
         // GET: Accomplishments/Details/5
@@ -197,6 +200,20 @@ namespace Pandemi.Controllers
             _context.Accomplishments.Remove(accomplishment);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        //GET Book/IndividualBooks/familymember
+        public async Task<IActionResult> Individual(int? id)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+
+            var vm = new AccomplishmentsViewModel();
+            vm.Accomplishments = _context.Accomplishments.Include(b => b.FamilyMember).Where(s => s.FamilyMember.ID == id).ToList();
+            vm.FamilyMember = _context.FamilyMembers.First(s => s.ID == id);
+
+
+
+            return View(vm);
         }
 
         private bool AccomplishmentExists(int id)

@@ -1,0 +1,60 @@
+﻿@model Pandemi.ViewModels.AccomplishmentsViewModel
+@using Pandemi.Models
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    ViewData["Title"] = "We Read Many Books!";
+}
+@{ var user = await UserManager.GetUserAsync(User);}
+<h2>Individual Accomplishments List for @(Model.FamilyMember.FirstName)</h2>
+
+
+<p>
+    <a asp-action="Create">+ Add a Book</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Accomplishments
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                First Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var accomplishment in Model.Accomplishments)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => accomplishment.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => accomplishment.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => accomplishment.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => accomplishment.FamilyMember.FirstName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@accomplishment.ID">Edit</a> |
+                    <!-- <a asp-action="Details" asp-route-id="@accomplishment.ID">Details</a> -->
+                    <a asp-action="Delete" asp-route-id="@accomplishment.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
