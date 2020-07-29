@@ -17,9 +17,9 @@ namespace Pandemi.Models
         public string UserId { get; set; }
         public AppUser User { get; set; }
 
-        public ICollection<JournalEntry> JournalEntries { get; set; }
-       public ICollection<Book> Books { get; set; }
-        public ICollection<Accomplishment> Accomplishments { get; set; }
+        //public ICollection<JournalEntry> JournalEntries { get; set; }
+       //public ICollection<Book> Books { get; set; }
+       // public ICollection<Accomplishment> Accomplishments { get; set; }
 
         
     }

@@ -17,7 +17,7 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
+        <tr class="table-danger">
             <th>
                 Title
             </th>
@@ -36,7 +36,7 @@
     <tbody>
         @foreach (var book in Model.Books)
         {
-            <tr>
+            <tr class="table-danger">
                 <td>
                     @Html.DisplayFor(modelItem => book.Title)
                 </td>

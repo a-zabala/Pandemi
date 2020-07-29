@@ -1,4 +1,4 @@
-﻿@model IList<Pandemi.Models.Food>
+﻿@model Pandemi.ViewModels.FoodsViewModel
 @using Pandemi.Models
 
 @using Microsoft.AspNetCore.Identity
@@ -35,7 +35,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var food in Model)
+        @foreach (var food in Model.Foods)
         {
             <tr class="table-info">
                 <td>
@@ -45,7 +45,8 @@
                     @Html.DisplayFor(modelItem => food.Notes)
                 </td>
                 <td>
-                    <a href="@food.Website" target="_blank"> @Html.DisplayFor(modelItem => food.Website)</a>                </td>
+                    <a href="@food.Website" target="_blank"> @Html.DisplayFor(modelItem => food.Website)</a>
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => food.FamilyMember.FirstName)
                 </td>
@@ -62,11 +63,11 @@
 <div class="row">
     <div class="col-large-7">
         <p class="bs-component">
-            @foreach (var food in Model)
-            //@foreach (var familymember in user)
+            @foreach (var familymember in Model.FamilyMembers)
             {
-                <button class="btn btn-primary btn-lg" type="button" onclick="location.href = '@Url.Action("Individual","Foods", new { id=food.FamilyMember.ID })'">@food.FamilyMember.FirstName</button>
+                <button class="btn btn-primary btn-lg" type="button" onclick="location.href = '@Url.Action("Individual","Foods", new { id=familymember.ID })'">@familymember.FirstName</button>
             }
         </p>
     </div>
 </div>
+

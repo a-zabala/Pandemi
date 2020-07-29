@@ -10,14 +10,12 @@
 }
 @{ var user = await UserManager.GetUserAsync(User);}
 <h2>Individual Food List for </h2>
-
-
 <p>
     <a asp-action="Add">+ Add a Food</a>
 </p>
 <table class="table">
     <thead>
-        <tr>
+        <tr class ="table-info">
             <th>
                 Name
             </th>
@@ -28,7 +26,7 @@
                 Website
             </th>
             <th>
-                Who cooked it?
+                Cook
             </th>
             <th></th>
         </tr>
@@ -36,7 +34,7 @@
     <tbody>
         @foreach (var food in Model)
         {
-            <tr>
+            <tr class ="table-info">
                 <td>
                     @Html.DisplayFor(modelItem => food.Name)
                 </td>

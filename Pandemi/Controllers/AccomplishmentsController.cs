@@ -201,7 +201,7 @@ namespace Pandemi.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        //GET Book/IndividualBooks/familymember
+        //GET Accomplishments/Individual/familymember
         public async Task<IActionResult> Individual(int? id)
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);

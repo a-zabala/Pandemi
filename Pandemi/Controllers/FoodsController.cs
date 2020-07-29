@@ -32,14 +32,12 @@ namespace Pandemi.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var vm = new FoodsViewModel();
 
-            //IList<FamilyMember> familymembers = context.FamilyMembers.Where(s => s.UserId == user.Id).ToList();
-            //return View(familymembers);
+            vm.Foods = context.Foods.Include(b => b.FamilyMember).Where(s => s.UserId == user.Id).ToList();
+            vm.FamilyMembers = context.FamilyMembers.Where(s => s.UserId == user.Id).ToList();
+            return View(vm);
 
-            //var userName = User.Identity.Name;
-            var foods = context.Foods.Include(b => b.FamilyMember).Where(s => s.UserId == user.Id).ToList();
-            //return View(await applicationDbContext.ToListAsync());
-            return View(foods);
         }
 
         // GET: Foods/Details/5

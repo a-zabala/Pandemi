@@ -6,18 +6,18 @@
 @inject SignInManager<AppUser> SignInManager
 
 @{
-    ViewData["Title"] = "We Read Many Books!";
+    ViewData["Title"] = "";
 }
 @{ var user = await UserManager.GetUserAsync(User);}
 <h2>Individual Accomplishments List for @(Model.FamilyMember.FirstName)</h2>
 
 
 <p>
-    <a asp-action="Create">+ Add a Book</a>
+    <a asp-action="Create">+ Add an Accomplishment</a>
 </p>
 <table class="table">
     <thead>
-        <tr>
+        <tr class="table-success">
             <th>
                 Date
             </th>
@@ -36,7 +36,7 @@
     <tbody>
         @foreach (var accomplishment in Model.Accomplishments)
         {
-            <tr>
+            <tr class="table-success">
                 <td>
                     @Html.DisplayFor(modelItem => accomplishment.Date)
                 </td>
